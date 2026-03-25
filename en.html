@@ -37,9 +37,6 @@ src="https://www.facebook.com/tr?id=116445785392738&ev=PageView&noscript=1"/></n
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KCZVRJ8" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KCZVRJ8" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
 
 <!-- ===== HEADER ===== -->
 <header class="header" id="header">
@@ -497,7 +494,15 @@ src="https://www.facebook.com/tr?id=116445785392738&ev=PageView&noscript=1"/></n
             </div>
             <div class="form__group">
               <label class="form__label" for="age">Age</label>
-              <input class="form__input" type="number" id="age" name="age" placeholder="e.g. 28" min="18" max="60" required>
+              <select class="form__input" id="age" name="age" required>
+                <option value="" disabled selected>Select age</option>
+                <option value="18-21">18–21</option>
+                <option value="22-25">22–25</option>
+                <option value="26-30">26–30</option>
+                <option value="31-35">31–35</option>
+                <option value="36-40">36–40</option>
+                <option value="41-45">41–45</option>
+              </select>
             </div>
           </div>
           <div class="form__group">
@@ -692,7 +697,7 @@ document.getElementById('contactForm').addEventListener('submit', async function
       'Campaign code: ' + (campaign_code || 'None') + '\n\n' +
       'Please contact the patient to arrange an exam appointment.'
     );
-    window.location.href = 'mailto:info@ksa.ee?subject=' + subject + '&body=' + body;
+    window.location.href = 'mailto:registreerumised@ksa.ee?subject=' + subject + '&body=' + body;
 
     form.style.display = 'none';
     document.getElementById('formSuccess').classList.add('active');
