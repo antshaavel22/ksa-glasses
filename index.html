@@ -948,6 +948,20 @@ document.querySelectorAll('.faq__question').forEach(btn => {
 // Contact form — Web3Forms
 const WEB3FORMS_KEY = 'f56ae819-28ae-4b51-9177-120a7fe65863';
 
+// LP lead routing → server endpoint (Slack #lp-kontaktid + Brevo). Fire-and-forget.
+// NB: LP_TRACK_TOKEN must match Vercel env LP_TRACK_SHARED_TOKEN on ksa-kiirtest.
+const LP_TRACK_ENDPOINT = 'https://kiirtest.ksa.ee/api/track';
+const LP_TRACK_TOKEN = 'ksa-lp-2026-f7b2a9c3e1d4';
+function trackLP(payload) {
+  try {
+    fetch(LP_TRACK_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Track-Source': LP_TRACK_TOKEN },
+      body: JSON.stringify(Object.assign({ timestamp: new Date().toISOString() }, payload)),
+    }).catch(function(){});
+  } catch (e) {}
+}
+
 document.getElementById('contactForm').addEventListener('submit', async function(e) {
   e.preventDefault();
 
@@ -975,6 +989,8 @@ document.getElementById('contactForm').addEventListener('submit', async function
   // Show loading state
   submitBtn.disabled = true;
   submitBtn.textContent = 'Saadan...';
+
+  trackLP({ type: 'lp_contact_submitted', lp_source: 'LP-Glasses-ET', language: 'ET', contact: { name, email, phone, age, diopter, campaign_code } });
 
   const messageBody = [
     'Flow3 uuring — päring maandumislehelt (prillidest loobumine)',
@@ -1070,6 +1086,7 @@ document.getElementById('guideForm').addEventListener('submit', async function(e
   submitBtn.disabled = true;
   submitBtn.textContent = 'Saadan...';
 
+  trackLP({ type: 'lp_guide_download', lp_source: 'LP-Glasses-ET-Guide', language: 'ET', contact: { name, email } });
   const guideUrl = window.location.origin + '/guide.html';
   const messageBody = [
     'Teejuhi tellimus maandumislehelt (prillidest loobumine)',
