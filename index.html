@@ -716,6 +716,50 @@ src="https://www.facebook.com/tr?id=116445785392738&ev=PageView&noscript=1"/></n
   </div>
 </section>
 
+<!-- ===== GUIDE LEAD MAGNET ===== -->
+<section class="guide-lm reveal" id="teejuht" style="background:var(--color-surface-warm);padding:var(--space-20) var(--space-6);">
+  <div class="container" style="max-width:1040px;">
+    <div class="guide-lm__grid" style="display:grid;grid-template-columns:1.05fr 0.95fr;gap:var(--space-12);align-items:center;">
+      <div>
+        <div class="section__label">Tasuta teejuht</div>
+        <h2 class="section__title" style="margin-bottom:var(--space-4);">Prillidest ja läätsedest vabaks: täielik teejuht</h2>
+        <p class="section__subtitle" style="margin-bottom:var(--space-6);">Lihtne ja arusaadav teejuht, mille loed läbi 10 minutiga. Saad teada prillide ja läätsede tegeliku hinna, kõik nägemise korrigeerimise võimalused 2026, kuidas Flow3 töötab ja kas see sobib just sulle.</p>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:var(--space-3);">
+          <li style="display:flex;gap:10px;align-items:flex-start;"><span style="color:var(--color-accent);font-weight:700;">✓</span> Prillide ja läätsede tegelik hind: aeg, raha, silmade tervis</li>
+          <li style="display:flex;gap:10px;align-items:flex-start;"><span style="color:var(--color-accent);font-weight:700;">✓</span> Kõik korrigeerimise võimalused kõrvuti võrreldud</li>
+          <li style="display:flex;gap:10px;align-items:flex-start;"><span style="color:var(--color-accent);font-weight:700;">✓</span> Kas sina oled Flow3 kandidaat? Lihtne enesetest</li>
+          <li style="display:flex;gap:10px;align-items:flex-start;"><span style="color:var(--color-accent);font-weight:700;">✓</span> Mida oodata: protsess, taastumine ja turvalisus</li>
+        </ul>
+      </div>
+      <div>
+        <form class="form" id="guideForm" novalidate style="background:#fff;padding:var(--space-8);border-radius:16px;">
+          <input type="hidden" name="lp_source" value="LP-Glasses-ET-Guide">
+          <p style="font-weight:600;font-size:1.05rem;margin-bottom:var(--space-4);">Saa tasuta teejuht kohe kätte</p>
+          <div class="form__group">
+            <label class="form__label" for="guide_name">Nimi</label>
+            <input class="form__input" type="text" id="guide_name" name="name" placeholder="Eesnimi" required>
+          </div>
+          <div class="form__group">
+            <label class="form__label" for="guide_email">E-post</label>
+            <input class="form__input" type="email" id="guide_email" name="email" placeholder="nimi@näide.ee" required>
+          </div>
+          <button type="submit" class="btn btn--primary" style="width:100%;margin-top:var(--space-2);">Näita mulle teejuhti →</button>
+          <p class="form__note" style="margin-top:var(--space-3);color:var(--color-text-secondary);font-size:0.82rem;">Saad teejuhi kohe kätte. Andmeid kasutame ainult sinuga ühenduse võtmiseks ja saad igal ajal loobuda.</p>
+        </form>
+
+        <div class="form__success" id="guideSuccess">
+          <p>Teejuht on valmis! 📖</p>
+          <span>Ava see kohe allolevast nupust.</span>
+          <div style="display:flex;flex-direction:column;gap:var(--space-3);margin-top:var(--space-5);">
+            <a href="./guide.html" target="_blank" rel="noopener" class="btn btn--primary" style="width:100%;" onclick="if(typeof gtag!=='undefined'){gtag('event','guide_open',{event_category:'Glasses LP',event_label:'guide_download'})}">Ava teejuht kohe →</a>
+            <a href="https://kiirtest.ksa.ee?utm_source=guide&utm_medium=lp&utm_campaign=glasses_guide" target="_blank" rel="noopener" class="btn" style="width:100%;background:#fff;color:var(--color-accent-hover);border:1.5px solid var(--color-accent);" onclick="if(typeof gtag!=='undefined'){gtag('event','kiirtest_cta_click',{event_category:'Glasses LP',event_label:'after_guide'})}">Järgmine samm: tee 2-min kiirtest</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="kiirtest-cta" style="background:#f0f7ff;padding:48px 24px;text-align:center;margin:0;">
   <div style="max-width:640px;margin:0 auto;">
     <p style="font-size:13px;text-transform:uppercase;letter-spacing:0.1em;color:#666;margin-bottom:12px;">Tänane pakkumine</p>
@@ -1005,6 +1049,70 @@ document.getElementById('contactForm').addEventListener('submit', async function
   } finally {
     submitBtn.disabled = false;
     submitBtn.textContent = 'Broneeri Flow3 uuring — 69 €';
+  }
+});
+
+// Guide lead-magnet form — Web3Forms
+// NOTE: the "saatsime e-postile" copy requires Web3Forms autoresponder to be enabled
+// for key f56ae819… (dashboard → Auto Respond), with a template containing the guide link.
+// The inline "Ava teejuht kohe" button delivers the guide regardless.
+document.getElementById('guideForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const form = this;
+  const submitBtn = form.querySelector('button[type="submit"]');
+  const name = form.name.value.trim();
+  const email = form.email.value.trim();
+
+  if (!name || !email) { alert('Palun sisesta nimi ja e-post.'); return; }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { alert('Palun sisesta korrektne e-posti aadress.'); return; }
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Saadan...';
+
+  const guideUrl = window.location.origin + '/guide.html';
+  const messageBody = [
+    'Teejuhi tellimus maandumislehelt (prillidest loobumine)',
+    '',
+    'Nimi: ' + name,
+    'E-post: ' + email,
+    'Teejuht: ' + guideUrl,
+    'Allikas: LP-Glasses-ET-Guide',
+    '',
+    'Saadetud: ' + new Date().toISOString()
+  ].join('\n');
+
+  try {
+    const res = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        access_key: WEB3FORMS_KEY,
+        subject: 'Teejuhi tellimus — ' + name,
+        from_name: 'KSA Silmakeskus',
+        replyto: email,
+        name: name,
+        email: email,
+        message: messageBody
+      })
+    });
+    const data = await res.json();
+    if (!data.success) throw new Error(data.message || 'Submission failed');
+  } catch(err) {
+    // Capture failed, but still give the reader the guide — don't lose them.
+    console.warn('Guide form submit failed, revealing guide anyway:', err);
+  } finally {
+    // Reveal guide + kiirtest nudge regardless, so the reader always gets the asset.
+    form.style.display = 'none';
+    document.getElementById('guideSuccess').classList.add('active');
+    // Conversion events (distinct from booking form)
+    if (typeof gtag !== 'undefined') {
+      gtag('event', 'generate_lead', {event_category:'Glasses LP', event_label:'guide_request'});
+    }
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ 'event':'guide_request', 'form_name':'guide_lead_magnet', 'lp_source':'LP-Glasses-ET-Guide' });
+    if (typeof fbq !== 'undefined') {
+      fbq('track', 'Lead', {content_name:'LP-Glasses-ET-Guide'});
+    }
   }
 });
 
